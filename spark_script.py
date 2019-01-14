@@ -13,6 +13,7 @@ from pyspark import SparkContext
 from pyspark.streaming import StreamingContext
 import pandas as pd
 from sklearn.externals import joblib
+import pickle
 
 # Function to map the point to the right quadrant
 def classify(line,model):
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     stc = StreamingContext(spc, 180)
     
     result=pd.DataFrame(columns=['timestamp','reasult'])
-    model = joblib.load('xgboost_model.sav')
+    model = pickle.load('xgboost_model.sav')
     
     lines = stc.socketTextStream("localhost", 9999)
 	 ret=classify(lines,model)
